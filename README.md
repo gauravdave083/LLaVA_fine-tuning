@@ -126,6 +126,53 @@ args = type('Args', (), {
 eval_model(args)
 ```
 
+# Fine-tuning LLaVA 
+## Hardware Specifications
+
+## Challenges and Considerations
+
+The 1050 Ti's 4 GB of VRAM may be insufficient for directly fine-tuning large models like LLaVA, which typically require 12 GB or more. However, there are several workarounds and optimization techniques you can try.
+
+### 1. Model Size and Memory Optimization
+
+To reduce memory usage, consider these techniques:
+
+- **Low-Rank Adaptation (LoRA)**: Reduces trainable parameters through low-rank approximations.
+- **Quantization**: Decreases memory requirements by reducing the precision of model weights (e.g., 8-bit or 4-bit precision).
+- **Gradient Checkpointing**: Trades computational speed for memory by saving and recomputing checkpoints at intermediate layers.
+
+### 2. Batch Size Adjustment
+
+- Lower the batch size to fit the model into limited VRAM.
+- A batch size of 1 might be necessary, though this will slow down training.
+
+### 3. Offloading to CPU or Disk
+
+- **Model parallelism**: Offload parts of the model to CPU or disk when VRAM runs out.
+- **Zero Redundancy Optimizer (ZeRO)**: Break down memory into smaller chunks, allowing partial offloading to RAM or disk.
+
+### 4. Using Smaller Models
+
+- Explore smaller pre-trained models or a subset of the LLaVA model.
+- Consider fine-tuning on cloud platforms with more powerful GPUs (e.g., AWS, GCP, Google Colab).
+
+### 5. Training Time
+
+- Expect significantly slower training times compared to modern GPUs like the RTX series.
+
+## Recommended Tools
+
+- **Hugging Face's `transformers` library**: Supports quantization and other memory-saving techniques.
+- **Deepspeed**: Optimizes memory and speed for training LLMs.
+
+## Conclusion
+
+Given these constraints, it may be more practical to:
+1. Experiment with smaller-scale fine-tuning
+2. Consider using cloud services with more powerful GPUs
+
+Remember that while these techniques can help, fine-tuning large models on a 1050 Ti will still be challenging and time-consuming.
+
 ## Conclusion
 
 LLaVA represents a significant advancement in multimodal AI, combining language and vision capabilities. The fine-tuning process allows for customization to specific tasks, enhancing its versatility. This README and the associated Colab tutorial provide a starting point for AI enthusiasts to explore and experiment with LLaVA, contributing to the ongoing development of multimodal AI technologies.
